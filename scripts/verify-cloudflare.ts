@@ -38,12 +38,15 @@ for (let attempt = 0; attempt < 6; attempt++) {
     assert.ok(metadata('meta[property="og:title"]').attr("content"));
     assert.ok(metadata('meta[property="og:description"]').attr("content"));
     const headers = { "User-Agent": "TelegramBot (like TwitterBot)" };
-    const [preview, thumbnail] = await Promise.all([
+    const [preview, thumbnail, robots]: [Response, Response, Response] = await Promise.all([
       fetch(canonical, { headers, signal: AbortSignal.timeout(15_000) }),
       fetch(image, { headers, signal: AbortSignal.timeout(15_000) }),
+      fetch(new URL("/robots.txt", canonical), { headers, signal: AbortSignal.timeout(15_000) }),
     ]);
     assert.equal(preview.status, 200);
     assert.equal(thumbnail.status, 200);
+    assert.equal(robots.status, 200);
+    assert.match(await robots.text(), /User-agent: \*/);
     assert.equal(load(await preview.text())('meta[property="og:image"]').attr("content"), image);
     assert.match(thumbnail.headers.get("Content-Type") ?? "", /image\/png/);
     const png = Buffer.from(await thumbnail.arrayBuffer());

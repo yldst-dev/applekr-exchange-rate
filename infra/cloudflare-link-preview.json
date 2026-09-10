@@ -1,11 +1,15 @@
 {
   "ref": "apple_exchange_link_previews",
-  "description": "Allow link previews for the public Apple exchange page and image",
-  "expression": "(http.host eq \"applekr-exchange-rate.yldst.com\" and http.request.method in {\"GET\" \"HEAD\"} and http.request.uri.path in {\"/\" \"/social-card-v1.png\"} and (cf.client.bot or lower(http.user_agent) contains \"telegrambot\" or lower(http.user_agent) contains \"twitterbot\" or lower(http.user_agent) contains \"facebookexternalhit\" or lower(http.user_agent) contains \"facebot\" or lower(http.user_agent) contains \"linkedinbot\" or lower(http.user_agent) contains \"slackbot\" or lower(http.user_agent) contains \"discordbot\" or lower(http.user_agent) contains \"whatsapp\"))",
+  "description": "Allow link previews for the public Apple exchange page, image and robots.txt",
+  "expression": "(http.host eq \"applekr-exchange-rate.yldst.com\" and http.request.method in {\"GET\" \"HEAD\"} and http.request.uri.path in {\"/\" \"/social-card-v1.png\" \"/robots.txt\"} and (cf.client.bot or lower(http.user_agent) contains \"telegrambot\" or lower(http.user_agent) contains \"twitterbot\" or lower(http.user_agent) contains \"facebookexternalhit\" or lower(http.user_agent) contains \"facebot\" or lower(http.user_agent) contains \"linkedinbot\" or lower(http.user_agent) contains \"slackbot\" or lower(http.user_agent) contains \"discordbot\" or lower(http.user_agent) contains \"whatsapp\"))",
   "action": "skip",
   "action_parameters": {
-    "products": ["securityLevel"]
+    "products": [
+      "securityLevel"
+    ]
   },
-  "logging": { "enabled": true },
+  "logging": {
+    "enabled": true
+  },
   "enabled": true
 }

@@ -17,6 +17,17 @@ for (let attempt = 0; attempt < 6; attempt++) {
     const html = await response.text();
     assert.match(html, /id="root"/);
     const metadata = load(html);
+    const fontStylesheet = metadata('link[rel="stylesheet"][href^="/fonts/"]').attr("href");
+    const fontPreload = metadata('link[rel="preload"][as="font"]').attr("href");
+    assert.ok(fontStylesheet && fontPreload);
+    const [fontCss, fontFile]: [Response, Response] = await Promise.all([
+      fetch(new URL(fontStylesheet, site), { signal: AbortSignal.timeout(15_000) }),
+      fetch(new URL(fontPreload, site), { signal: AbortSignal.timeout(15_000) }),
+    ]);
+    assert.equal(fontCss.status, 200);
+    assert.match(await fontCss.text(), /Pretendard Variable/);
+    assert.equal(fontFile.status, 200);
+    assert.equal(Buffer.from(await fontFile.arrayBuffer()).subarray(0, 4).toString(), "wOF2");
     const favicon = metadata('link[rel="icon"][type="image/svg+xml"]').attr("href");
     const touchIcon = metadata('link[rel="apple-touch-icon"]').attr("href");
     assert.equal(favicon, "/favicon.svg");

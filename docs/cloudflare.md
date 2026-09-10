@@ -49,7 +49,9 @@ Wrangler에 배포 계정으로 로그인하거나 셸에서 `CLOUDFLARE_API_TOK
 
 첫 HTML 응답의 Open Graph와 Twitter Card 태그에 제목, 설명, 대표 이미지의 절대 주소를 제공합니다. JavaScript 실행 없이 메신저에서 정보를 읽을 수 있습니다. 제품별 공유 링크도 사이트 공통 미리보기를 사용합니다.
 
-대표 이미지는 `public/social-card-v1.png`이며 크기는 1200×630입니다. 이미지 수정 시 macOS에서 Pillow와 기본 Apple SD Gothic Neo 서체로 `python3 scripts/generate-social-card.py`를 실행할 수 있습니다. 이미지를 바꾸면 파일 이름과 메타 태그 주소도 함께 바꿔 메신저 이미지 캐시와 구분합니다.
+웹사이트는 `public/fonts/pretendard-1.3.9`의 Pretendard Variable을 직접 제공합니다. 필요한 글자 묶음만 내려받으며, 제목과 본문 및 입력창에 동일하게 적용합니다.
+
+대표 이미지는 `public/social-card-v2.png`이며 크기는 1200×630입니다. Pillow와 fontTools로 `python3 scripts/generate-social-card.py`를 실행하면 저장소에 포함한 동일 버전의 Pretendard로 생성합니다. 이전 이미지 주소인 `social-card-v1.png`에도 같은 이미지를 제공합니다. 이미지를 바꾸면 파일 이름과 메타 태그 주소도 함께 바꿔 메신저 이미지 캐시와 구분합니다.
 
 `yldst.com`의 공격 방어 모드 때문에 미리보기 봇에도 브라우저 확인이 요구됩니다. Cloudflare의 해당 영역에 `infra/cloudflare-link-preview.json`의 규칙을 적용합니다. 이 규칙은 자동 배포가 관리하지 않으며 별도로 유지합니다. 지정 호스트의 GET과 HEAD 요청 중 홈페이지, 대표 이미지, `robots.txt`에만 적용하고, 확인된 봇 또는 나열된 미리보기 User-Agent에 대해서만 Security Level 검사를 건너뜁니다. User-Agent는 인증 수단이 아니므로 이 예외를 비공개 경로나 API에 확대하지 않습니다.
 

@@ -2,6 +2,8 @@
 @import "@heroui/styles";
 
 :root {
+  --font-sans: "Pretendard Variable", sans-serif;
+  --font-mono: "Pretendard Variable", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

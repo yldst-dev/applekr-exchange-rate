@@ -1,0 +1,17 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://store.storeimages.cdn-apple.com https://www.apple.com; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/api/catalog
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=30, must-revalidate
+
+/api/health
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: no-store

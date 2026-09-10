@@ -5,7 +5,7 @@ import refresh from "eslint-plugin-react-refresh";
 import globals from "globals";
 
 export default tseslint.config(
-  { ignores: ["dist/**", "build/**", "data/**", "node_modules/**"] },
+  { ignores: ["dist/**", "build/**", "data/**", "data-cloudflare/**", ".wrangler/**", "node_modules/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },

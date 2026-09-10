@@ -6,3 +6,6 @@ data/
 .env.*
 !.env.example
 .DS_Store
+.wrangler/
+.dev.vars*
+data-cloudflare/

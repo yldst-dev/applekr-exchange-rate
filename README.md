@@ -1,6 +1,12 @@
 # Apple 환율 계산기
 
-Vite, React, HeroUI v3 기본 디자인 체계, TypeScript로 만든 한국·미국 Apple 공식 가격 비교 사이트입니다. Node.js 서버가 가격과 환율을 수집하고 정적 화면 및 조회 API를 함께 제공합니다.
+Vite, React, HeroUI v3 기본 디자인 체계, TypeScript로 만든 한국·미국 Apple 공식 가격 비교 사이트입니다. Cloudflare Workers에서 화면과 조회 데이터를 제공하고 GitHub Actions에서 하루 1회 가격과 환율을 수집합니다. 로컬 개발과 자체 호스팅에는 기존 Node.js 서버를 사용할 수 있습니다.
+
+## Cloudflare Workers 배포
+
+`main` 브랜치에 푸시하면 검증과 빌드 후 자동 배포합니다. 한국 시각 09:00에 일일 수집과 배포를 예약하며 실제 실행 시각은 GitHub 작업 상태에 따라 늦어질 수 있습니다. 이전 배포에서 마지막 확인값을 복구하므로 일부 수집 실패에도 기존 가격을 유지합니다.
+
+필요한 GitHub 설정과 운영 절차는 [Cloudflare 배포 안내](docs/cloudflare.md)를 참고하세요.
 
 ## 실행
 

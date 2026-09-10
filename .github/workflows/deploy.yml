@@ -1,0 +1,56 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      refresh:
+        description: Refresh prices even if collected today
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEPLOYED_SITE_URL: ${{ vars.DEPLOYED_SITE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - name: Prepare daily catalog
+        env:
+          REFRESH: ${{ github.event_name == 'schedule' || inputs.refresh }}
+        run: |
+          if [ "$REFRESH" = "true" ]; then
+            npm run prepare:cloudflare -- --refresh
+          else
+            npm run prepare:cloudflare
+          fi
+      - run: npm run build:cloudflare
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run deploy:cloudflare
+      - name: Verify deployment
+        run: node --import tsx scripts/verify-cloudflare.ts

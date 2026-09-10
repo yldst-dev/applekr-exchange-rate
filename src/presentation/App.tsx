@@ -7,6 +7,7 @@ import { dateTime, number, signed, usd, won } from "./format";
 import { Arrow, Picker, ProductImage } from "./controls";
 import { ResultPanel } from "./ResultPanel";
 import { LowestRates } from "./LowestRates";
+import { useTheme } from "./use-theme";
 
 export function App() {
   const { data, error, loading, refresh, observedAt } = useCatalog();
@@ -22,7 +23,7 @@ export function App() {
   const [page, setPage] = useState(0);
   const [copied, setCopied] = useState(false);
   const [shareFailed, setShareFailed] = useState(false);
-  const [dark, setDark] = useState(false);
+  const { dark, toggleTheme } = useTheme();
   const products = data?.products ?? [];
   const filtered = products.filter(
     (product) =>
@@ -128,11 +129,7 @@ export function App() {
             variant="ghost"
             size="sm"
             isIconOnly
-            onPress={() => {
-              const value = !dark;
-              setDark(value);
-              document.documentElement.classList.toggle("dark", value);
-            }}
+            onPress={toggleTheme}
             aria-label={dark ? "밝은 화면으로 전환" : "어두운 화면으로 전환"}
           >
             <svg

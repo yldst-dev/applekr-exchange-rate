@@ -1,0 +1,35 @@
+.calculator-section { scroll-margin-top: 88px; }
+
+@media (min-width: 1001px) and (min-height: 720px) {
+  .calculator-section { display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - 112px); scroll-snap-align: start; }
+  .calculator-section .category-nav { flex-shrink: 0; padding-bottom: 20px; }
+  .calculator-section .calculator-grid { min-height: calc(100svh - 176px); }
+  .calculator-section .selection-panel,
+  .calculator-section .result-panel { padding: clamp(24px, 3svh, 40px); }
+  .calculator-section .selection-panel { display: flex; flex-direction: column; }
+  .calculator-section .selection-panel .section-label { margin-bottom: 16px; }
+  .calculator-section .product-preview { flex: 1; display: flex; flex-direction: column; justify-content: center; margin: 4px 0 20px; }
+  .calculator-section .product-image { height: clamp(80px, calc(100svh - 720px), 220px); flex-shrink: 0; }
+  .calculator-section .product-preview h3 { margin-top: 12px; }
+  .calculator-section .picker { flex-shrink: 0; margin-bottom: 12px; }
+  .calculator-section .tax-setting { margin-top: 12px; padding-top: 16px; }
+  .calculator-section .tax-setting p { margin-top: 6px; }
+  .calculator-section .result-value { margin: 24px 0 12px; }
+  .calculator-section .difference { margin-bottom: 24px; }
+  .calculator-section .rate-comparison { gap: 12px; margin-bottom: 24px; }
+  .calculator-section .price-pair { padding: 20px 0; }
+  .calculator-section .price-details { gap: 12px; padding-top: 20px; }
+  .calculator-section .result-bottom { padding-top: 24px; }
+}
+
+@media (min-width: 1001px) and (min-height: 720px) and (max-height: 850px) {
+  .calculator-section .product-preview { flex-direction: row; align-items: center; gap: 16px; text-align: left; }
+  .calculator-section .product-image { width: 140px; height: 160px; }
+  .calculator-section .product-preview > div { flex: 1; min-width: 0; }
+  .calculator-section .product-preview h3 { margin-top: 0; font-size: 24px; }
+}
+
+@media (min-width: 1001px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
+  html:has(.calculator-section) { scroll-snap-type: y proximity; }
+  .app-shell .intro { scroll-snap-align: start; scroll-margin-top: 64px; }
+}

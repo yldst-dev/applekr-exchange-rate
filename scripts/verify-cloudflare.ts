@@ -17,6 +17,20 @@ for (let attempt = 0; attempt < 6; attempt++) {
     const html = await response.text();
     assert.match(html, /id="root"/);
     const metadata = load(html);
+    const favicon = metadata('link[rel="icon"][type="image/svg+xml"]').attr("href");
+    const touchIcon = metadata('link[rel="apple-touch-icon"]').attr("href");
+    assert.equal(favicon, "/favicon.svg");
+    assert.equal(touchIcon, "/apple-touch-icon.png");
+    const [iconResponse, touchResponse]: [Response, Response] = await Promise.all([
+      fetch(new URL(favicon, site), { signal: AbortSignal.timeout(15_000) }),
+      fetch(new URL(touchIcon, site), { signal: AbortSignal.timeout(15_000) }),
+    ]);
+    assert.equal(iconResponse.status, 200);
+    assert.match(await iconResponse.text(), /viewBox="0 0 64 64"/);
+    assert.equal(touchResponse.status, 200);
+    const touchPng = Buffer.from(await touchResponse.arrayBuffer());
+    assert.equal(touchPng.readUInt32BE(16), 180);
+    assert.equal(touchPng.readUInt32BE(20), 180);
     const canonical = metadata('meta[property="og:url"]').attr("content");
     const image = metadata('meta[property="og:image"]').attr("content");
     assert.ok(canonical && image);

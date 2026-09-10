@@ -8,6 +8,7 @@ import { Arrow, Picker, ProductImage } from "./controls";
 import { ResultPanel } from "./ResultPanel";
 import { LowestRates } from "./LowestRates";
 import { useTheme } from "./use-theme";
+import "./calculator-section.css";
 
 export function App() {
   const { data, error, loading, refresh, observedAt } = useCatalog();
@@ -239,6 +240,7 @@ export function App() {
           </section>
         ) : (
           <>
+            <section id="calculator" className="calculator-section" aria-label="제품 가격과 환율 계산">
             <nav className="category-nav" aria-label="제품군 선택">
               {["전체", ...categories].map((value) => (
                 <Button
@@ -252,7 +254,7 @@ export function App() {
                 </Button>
               ))}
             </nav>
-            <section id="calculator" className="calculator-grid">
+            <div className="calculator-grid">
               <div className="selection-panel">
                 <div className="section-label">
                   <h2>비교할 제품</h2>
@@ -313,6 +315,7 @@ export function App() {
                 copied={copied}
                 shareFailed={shareFailed}
               />
+            </div>
             </section>
             <LowestRates products={products} marketRate={rate?.rate ?? null} excludeVat={excludeVat} observedAt={observedAt} onSelect={choose} />
             <div className="catalog-section">

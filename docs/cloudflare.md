@@ -2,17 +2,19 @@
 
 Workers Static Assets에서 Vite 화면과 읽기 전용 가격 데이터를 함께 제공합니다. 가격 계산은 브라우저에서 처리합니다. 수집은 GitHub Actions의 Node.js 환경에서 실행하므로 Workers 유료 요금제나 상시 서버가 필요하지 않습니다.
 
+공개 주소는 https://applekr-exchange-rate.yldst.com 입니다. `wrangler.jsonc`의 Custom Domain 설정으로 재배포 후에도 연결을 유지합니다. Cloudflare가 도메인 연결과 인증서를 관리합니다. `workers.dev` 주소는 자동 배포에서 이전 데이터를 복구하는 주소로 계속 사용합니다.
+
 ## 자동 배포 설정
 
 GitHub 저장소의 Settings, Secrets and variables, Actions에서 다음 값을 설정합니다.
 
 | 종류 | 이름 | 내용 |
 | --- | --- | --- |
-| Secret | `CLOUDFLARE_API_TOKEN` | 배포 계정의 Workers Scripts Edit 권한을 가진 배포용 토큰입니다. |
+| Secret | `CLOUDFLARE_API_TOKEN` | 배포 계정의 Workers Scripts Edit 권한과 `yldst.com` 영역의 Zone Read 및 Workers Routes Edit 권한을 가진 배포용 토큰입니다. |
 | Variable | `CLOUDFLARE_ACCOUNT_ID` | 배포할 Cloudflare 계정 식별값입니다. |
 | Variable | `DEPLOYED_SITE_URL` | 해당 Worker의 `https://`로 시작하는 `workers.dev` 기본 주소입니다. |
 
-인증 값은 저장소 파일에 넣지 않습니다. 토큰은 해당 배포 계정만 대상으로 만들고 다른 서비스 권한을 추가하지 않습니다. 기존 토큰을 교체할 때는 GitHub Secret을 먼저 갱신합니다.
+인증 값은 저장소 파일에 넣지 않습니다. 토큰의 계정 권한은 배포 계정으로, 도메인 권한은 `yldst.com`으로 제한합니다. 기존 토큰을 교체할 때는 GitHub Secret을 먼저 갱신합니다.
 
 `.github/workflows/deploy.yml`은 `main` 푸시, 한국 시각 09:00의 일일 예약, 수동 실행에 반응합니다. 모든 검사가 통과한 경우에만 배포합니다. GitHub 예약 실행은 지연될 수 있으며, 공개 저장소에 활동이 60일 동안 없으면 예약 작업이 비활성화될 수 있습니다. GitHub Actions의 실행 상태를 확인합니다.
 

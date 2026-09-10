@@ -4,6 +4,12 @@
   "compatibility_date": "2026-09-10",
   "workers_dev": true,
   "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "applekr-exchange-rate.yldst.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",

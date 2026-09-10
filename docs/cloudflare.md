@@ -45,7 +45,17 @@ Wrangler에 배포 계정으로 로그인하거나 셸에서 `CLOUDFLARE_API_TOK
 
 일일 수집이나 배포에 실패하면 GitHub Actions에서 실패한 단계를 확인하고 수동 실행합니다. 이미 정상적으로 수집한 날에는 `refresh`를 끈 상태로 배포만 다시 실행할 수 있습니다.
 
-## 참고
+## 링크 미리보기
+
+첫 HTML 응답의 Open Graph와 Twitter Card 태그에 제목, 설명, 대표 이미지의 절대 주소를 제공합니다. JavaScript 실행 없이 메신저에서 정보를 읽을 수 있습니다. 제품별 공유 링크도 사이트 공통 미리보기를 사용합니다.
+
+대표 이미지는 `public/social-card-v1.png`이며 크기는 1200×630입니다. 이미지 수정 시 macOS에서 Pillow와 기본 Apple SD Gothic Neo 서체로 `python3 scripts/generate-social-card.py`를 실행할 수 있습니다. 이미지를 바꾸면 파일 이름과 메타 태그 주소도 함께 바꿔 메신저 이미지 캐시와 구분합니다.
+
+`yldst.com`의 공격 방어 모드 때문에 미리보기 봇에도 브라우저 확인이 요구됩니다. Cloudflare의 해당 영역에 `infra/cloudflare-link-preview.json`의 규칙을 적용합니다. 이 규칙은 자동 배포가 관리하지 않으며 별도로 유지합니다. 지정 호스트의 GET과 HEAD 요청 중 홈페이지와 대표 이미지에만 적용하고, 확인된 봇 또는 나열된 미리보기 User-Agent에 대해서만 Security Level 검사를 건너뜁니다. User-Agent는 인증 수단이 아니므로 이 예외를 비공개 경로나 API에 확대하지 않습니다.
+
+Cloudflare의 다른 보안 검사와 도메인의 기본 보안 설정은 유지합니다. 이미 공유한 링크는 메신저에 저장된 미리보기가 남아 있을 수 있습니다.
+
+## 참고 자료
 
 - [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
 - [정적 파일 응답 헤더](https://developers.cloudflare.com/workers/static-assets/headers/)
